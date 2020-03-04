@@ -1,4 +1,4 @@
-# projeto-aa-1
+# Trabalhos-aa
 Trabalhos realizados ao longo do semestre em Arquiteturas Aplicacionais
 
 # Grupo:
