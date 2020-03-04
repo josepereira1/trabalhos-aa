@@ -4,4 +4,4 @@ Primeiro projeto de Arquiteturas Aplicacionais
 # Grupo:
  - José Pereira (josepereira1)
  - Ricardo Petronilho (RicardoPetronilho98)
- - João Marques
+ - João Marques (marquinhos87)
