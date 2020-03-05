@@ -1,0 +1,45 @@
+import java.util.Stack;
+
+public class TextEditor {
+
+    private Stack<TextBoxSnapshot> savedTextBoxes; // stack holding snapshots
+    private TextBox textBox; // current text box
+    private boolean autoSave; // if true automatically saves text box before making changes
+
+    public TextEditor() {
+        savedTextBoxes = new Stack<>();
+        textBox = new TextBox();
+        autoSave = false;
+    }
+
+    public void appendText(String text) {
+        if (autoSave) { // creates a snapshot before making changes
+            TextBoxSnapshot snapshot = textBox.save(); // creates snapshot
+            savedTextBoxes.push(snapshot); // saves it
+        }
+        textBox.appendText(text);
+    }
+
+    public void setAutoSave(boolean autoSave) {
+        this.autoSave = autoSave;
+    }
+
+    public void display() {
+        System.out.println(">> " + textBox.getText());
+    }
+
+    public void undo() {
+        System.out.println("undo clicked...");
+        TextBoxSnapshot snapshot = savedTextBoxes.pop();
+        snapshot.restore();
+    }
+
+    @Override
+    public String toString() {
+        return "TextEditor{" +
+                "savedTextBoxes=" + savedTextBoxes +
+                ", textBox=" + textBox +
+                ", autoSave=" + autoSave +
+                '}';
+    }
+}
