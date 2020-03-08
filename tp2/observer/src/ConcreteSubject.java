@@ -1,35 +1,35 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class ConcreteSubject implements Subject {
     private int state;
-    private Map<Integer,Observer> observers;
-    private int lastId;
+    private Collection<Observer> observers;
 
     public ConcreteSubject(){
         this.state = 0;
-        this.observers = new HashMap<>();
-        this.lastId = 0;
+        this.observers = new ArrayList<>();
     }
 
     @Override
-    public void registerObserver(ConcreteObserver concreteSubject) {
-        lastId++;
-        concreteSubject.id = lastId;
-        System.out.println("Register observer with id " + lastId + "!");
-        observers.put(lastId , concreteSubject);
+    public void registerObserver(Observer observer) {
+        observers.add(observer);
     }
 
     @Override
-    public void removeObserver(int id) {
-        System.out.println("Remove observer with id " + id);
-        observers.remove(id);
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
     }
 
     @Override
-    public void notifyObservers() {
-        System.out.println("Notify observers!");
-        for(Observer ob : observers.values())ob.update();
+    public void notifyObservers(Object info) {
+        System.out.println("notify observers");
+        Object[] arr = new Object[2];   //  array with info to send
+        arr[0] = this.state;            //  state
+        arr[1] = info;                  //  time
+        for(Observer ob : observers)ob.update(arr);
     }
+
+    // other methods
 
     public int getState(){
         return this.state;

@@ -1,6 +1,5 @@
 public interface Subject {
-    void registerObserver(ConcreteObserver concreteObserver);
-    void removeObserver(int id);
-    void notifyObservers();
-
+    void registerObserver(Observer concreteObserver);
+    void removeObserver(Observer observer);
+    void notifyObservers(Object info);
 }
