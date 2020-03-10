@@ -1,0 +1,303 @@
+\newpage
+\section{Anexos}
+\label{sec:anexos}
+
+\appendix
+
+\section{Memento}
+\label{anexo:memento}
+
+\begin{minted}{java}
+
+public interface Originator {
+    Memento save();
+}
+
+// ----------------------------------------------------------
+
+public class TextBox implements Originator {
+
+    private StringBuilder currentText;
+
+    public TextBox() {
+        currentText = new StringBuilder();
+    }
+
+    public void appendText(String text) {
+        currentText.append(text);
+    }
+
+    public void setText(String text) {
+        this.currentText.setLength(0); // more efficient than creating a new instance
+        this.currentText.append(text);
+    }
+
+    public String getText() {
+        return currentText.toString();
+    }
+
+    @Override
+    public Memento save() {
+        return new TextBoxSnapshot(this, currentText.toString());
+    }
+}
+
+// ----------------------------------------------------------
+
+public interface Memento {
+    void restore();
+}
+
+// ----------------------------------------------------------
+
+public class TextBoxSnapshot implements Memento {
+
+    private TextBox originator;
+
+    // cloned state variables from originator (TextBox)
+    private String text;
+
+    // custom variables for advanced features
+    private LocalDateTime savedAt;
+
+    public TextBoxSnapshot(TextBox originator, String text) {
+        this.originator = originator;
+        this.text = text;
+        savedAt = LocalDateTime.now();
+    }
+
+    public LocalDateTime getDateTime() {
+        return savedAt;
+    }
+
+    @Override
+    public void restore() {
+        originator.setText(text);
+    }
+}
+
+// ----------------------------------------------------------
+
+public class TextEditor {
+
+    private Stack<Memento> savedTextBoxes; // stack holding snapshots
+    private TextBox textBox; // current text box
+    private boolean autoSave; // if true automatically 
+    // saves text box before making changes 
+
+    public TextEditor() {
+        savedTextBoxes = new Stack<>();
+        textBox = new TextBox();
+        autoSave = false;
+    }
+
+    public void appendText(String text) {
+        if (autoSave) save(); // creates a snapshot before making changes
+        textBox.appendText(text);
+    }
+
+    public void setAutoSave(boolean autoSave) {
+        this.autoSave = autoSave;
+    }
+    public void display() {
+        System.out.println(">> " + textBox.getText());
+    }
+
+    public void save() {
+        Memento snapshot = textBox.save(); // creates snapshot
+        savedTextBoxes.push(snapshot); // saves it
+    }
+
+    public void undo() {
+        System.out.println("undo clicked...");
+        Memento snapshot = savedTextBoxes.pop();
+        snapshot.restore();
+    }
+}
+
+// ----------------------------------------------------------
+
+public class Main {
+
+    public static void main(String[] args) {
+        TextEditor textEditor = new TextEditor();
+        textEditor.setAutoSave(true);
+
+        textEditor.appendText("Hello");
+        textEditor.display();
+        
+        textEditor.appendText(" World!");
+        textEditor.display();
+        
+        textEditor.undo();
+        textEditor.display();
+    }
+}
+
+// ----------------------------------------------------------
+
+Output:
+
+>> Hello
+>> Hello World!
+undo clicked...
+>> Hello
+    
+\end{minted}
+
+\newpage
+\section{Observer}
+\label{anexo:observer}
+
+\begin{minted}{java}
+
+public interface Subject {
+    void registerObserver(Observer concreteObserver);
+    void removeObserver(Observer observer);
+    void notifyObservers(Object info);
+}
+
+// ----------------------------------------------------------
+public interface Observer {
+    void update(Object info);
+}
+
+// ----------------------------------------------------------
+
+public class ConcreteSubject implements Subject {
+    private int state;
+    private Collection<Observer> observers;
+
+    public ConcreteSubject(){
+        this.state = 0;
+        this.observers = new ArrayList<>();
+    }
+
+    @Override
+    public void registerObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers(Object info) {
+        System.out.println("notify observers");
+        Object[] arr = new Object[2];   //  array with info to send
+        arr[0] = this.state;            //  state
+        arr[1] = info;                  //  time
+        for(Observer ob : observers)ob.update(arr);
+    }
+
+    // other methods
+
+    public int getState(){
+        return this.state;
+    }
+
+    public void setState(int state){
+        this.state = state;
+    }
+}
+
+// ----------------------------------------------------------
+
+public class ConcreteObserver implements Observer{
+    private Subject subject;
+    private int state;
+
+    public ConcreteObserver(Subject subject){
+        this.subject = subject;
+        this.subject.registerObserver(this);
+        //  observer registers on the subject
+    }
+
+    @Override
+    public void update(Object info) {
+        if(info instanceof Object[]){
+            LocalDateTime time = null;
+            Object[] arr = (Object[]) info;
+            this.state = (Integer) arr[0];
+            time = (LocalDateTime) arr[1];
+             System.out.println("observer: state = " +
+                                 this.state + 
+                                 " | time = " 
+                                 + time);
+        }else{
+            System.out.println("Something is wrong!");    
+        }
+    }
+
+    // other methods
+}
+
+// ----------------------------------------------------------
+
+public static void main(String[] args){
+        int numberOfObservers = 3;
+
+        //  subject
+        ConcreteSubject subject = new ConcreteSubject();
+        
+        //  observer register
+        ConcreteObserver obs = new ConcreteObserver(subject);
+
+        //  create multiple observers
+        for(int i = 0; i < numberOfObservers; i++) new ConcreteObserver(subject);
+
+        System.out.println("initial state: " + subject.getState());
+
+        //  the state is changed, then observers are notified
+        subject.setState(50);
+
+        System.out.println("change state value to: " + subject.getState());
+
+        //  here, we are sending additional information to observers
+        subject.notifyObservers(LocalDateTime.now());
+
+        subject.setState(5741);
+        System.out.println("change state value to: " + subject.getState());
+        subject.notifyObservers(LocalDateTime.now());
+        
+        //  the status is changed and do not notify observers immediately and 
+        //  check that the status of observers is not updated
+        subject.setState(-457);
+        System.out.println("change state value to: " + subject.getState());
+        System.out.println("state of observer before notifyObservers: " +
+                            obs.getState());
+        subject.notifyObservers(LocalDateTime.now());
+
+        //  remove observer obs
+        subject.removeObserver(obs);
+    }
+
+// ----------------------------------------------------------
+
+Output:
+
+initial state: 0
+change state value to: 50
+notify observers
+observer: state = 50 | time = 2020-03-08T18:38:12.310
+observer: state = 50 | time = 2020-03-08T18:38:12.310
+observer: state = 50 | time = 2020-03-08T18:38:12.310
+observer: state = 50 | time = 2020-03-08T18:38:12.310
+change state value to: 5741
+notify observers
+observer: state = 5741 | time = 2020-03-08T18:38:12.328
+observer: state = 5741 | time = 2020-03-08T18:38:12.328
+observer: state = 5741 | time = 2020-03-08T18:38:12.328
+observer: state = 5741 | time = 2020-03-08T18:38:12.328
+change state value to: -457
+state of observer before notifyObservers: 5741
+notify observers
+observer: state = -457 | time = 2020-03-08T18:38:12.329
+observer: state = -457 | time = 2020-03-08T18:38:12.329
+observer: state = -457 | time = 2020-03-08T18:38:12.329
+observer: state = -457 | time = 2020-03-08T18:38:12.329
+\end{minted}
+
+\appendix

@@ -1,0 +1,94 @@
+% ---------------------------------------------------------------------------- %
+
+\PassOptionsToPackage{dvipsnames}{xcolor}
+
+\documentclass[acmsmall,nonacm,screen]{acmart}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{minted}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{varwidth}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{stackengine}
+\usepackage{blindtext}
+\usepackage{enumitem}
+\usepackage[portuges]{babel}
+\usepackage[toc,page]{appendix}
+
+% ---------------------------------------------------------------------------- %
+% configuration
+
+% configure template
+
+\makeatletter
+\let\@authorsaddresses\@empty
+\makeatother
+
+\makeatletter
+\let\ftype@table\ftype@figure
+\makeatother
+
+\makeatletter
+\setlength{\@fptop}{0pt plus 1fil}
+\setlength{\@fpbot}{0pt plus 1fil}
+\makeatother
+
+\setlength{\intextsep}{10pt}
+\setlength{\textfloatsep}{10pt}
+
+\captionsetup[figure]{name={Figure}}
+
+\setlist{nosep}
+
+% ---------------------------------------------------------------------------- %
+% utilities
+
+\makeatletter
+\newcommand{\gobblepars}{\@ifnextchar\par{\expandafter\gobblepars\@gobble}{}}
+\makeatother
+
+\renewcommand{\paragraph}[1]{%
+  \vspace*{.5\baselineskip}%
+  \noindent\textbf{#1.} %
+  \gobblepars%
+  }
+
+\newcommand{\mynote}[3]{%
+    {\color{black}%
+        \fbox{\bfseries\sffamily\scriptsize#1}%
+        {\small$\blacktriangleright$\textsf{\emph{\color{#2}{#3}}}$\blacktriangleleft$}%
+    }%
+  }
+
+% ---------------------------------------------------------------------------- %
+% document
+
+\begin{document}
+
+\title{AA 19/20 -- Relatório Design Patterns}
+\makeatletter \renewcommand{\shortauthors}{\@title} \makeatother
+
+\begin{abstract}
+\large
+\vspace*{-.8\baselineskip}
+João Marques (A81826), José Pereira (A82880), Ricardo Petronilho (A81744)
+\vspace*{.4\baselineskip}
+\par \noindent \today
+\vspace*{.25\baselineskip}
+\end{abstract}
+
+\maketitle
+
+\input{body/introducao.tex}
+\input{body/memento.tex}
+\input{body/observer.tex}
+\input{body/anexos.tex}
+
+\end{document}
+
+% ---------------------------------------------------------------------------- %
+
