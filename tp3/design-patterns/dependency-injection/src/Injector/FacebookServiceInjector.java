@@ -3,7 +3,7 @@ package Injector;
 import Consumer.*;
 import Service.FacebookService;
 
-public class SMSServiceInjector implements MessageServiceInjector {
+public class FacebookServiceInjector implements MessageServiceInjector {
 	 
 	@Override
 	public Consumer getConsumer() {
