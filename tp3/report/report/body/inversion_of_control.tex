@@ -1,0 +1,12 @@
+\section{Padrão Arquitectural - Inversion of Control}
+\label{sec:inversion}
+
+\hspace{3mm} O IoC - \textbf{I}nversion \textbf{O}f \textbf{C}ontrol - é um padrão arquitectural muito usado nas aplicações de média ou alta complexidade que exigem \textbf{facilidade de manutenção}. Desta forma, para se perceber no que consiste o padrão IoC pode-se fazer uma comparação a um software tradicional (sem IoC). 
+
+Num software tradicional o engenheiro de software, desde o início do projecto, tem total controlo na decisão arquitectural do mesmo, isto é, toda a arquitectura é decidida e implementada por ele. Existem vantagens neste procedimento como \textbf{maior controlo e compreensão detalhada da arquitectura}. No entanto na perspectiva da \textbf{reutilização e manutenção do código este procedimento torna-se complicado e pouco viável}, uma vez que, para cada projecto diferente, a arquitectura base será também diferente, mesmo que utilizem as mesmas estruturas de dados genéricas.
+
+O padrão IoC resolve precisamente o problema anterior, tornando possível criar e utilizar a mesma arquitectura para a base de todos os projectos, sendo que o papel do engenheiro de software consiste em "preencher os espaços em branco", isto é, \textbf{implementar porções de código específicas ao contexto do problema que o sistema pretende resolver}. 
+
+As \textbf{frameworks} conseguem reutilizar a mesma arquitectura base para todos os projectos, precisamente implementado o padrão IoC. Analisando qualquer projecto, por exemplo, utilizando Spring ou Laravel, têm exactamente a mesma base arquitectural. Desta forma para se implementar o IoC as frameworks podem utilizar o padrão DI - Dependency Injection - referido anteriormente.
+
+Assim, note-se que o IoC não é exclusivamente usado nem destinado apenas a frameworks, é possível implementar o IoC num simples exemplo ou sistema, no entanto anteriormente foi dado relevo ao seu uso em frameworks uma vez que é o padrão que possibilita a própria criação da mesma.

@@ -1,0 +1,105 @@
+\section{Anexos}
+\label{sec:anexos}
+
+\appendix
+
+\section{Dependency Injection}
+\label{anexo:dependency}
+
+\begin{minted}{java}
+
+public interface MessageService {
+    void sendMessage(String msg);
+}
+
+// ----------------------------------------------------------
+
+public class SMSService implements MessageService {
+    @Override
+    public void sendMessage(String message) {
+        System.out.println("SMS: " + message);
+    }
+}
+
+// ----------------------------------------------------------
+
+public class EmailService implements MessageService {
+    @Override
+    public void sendMessage(String message) {
+        System.out.println("Email: " + message);
+    }
+}
+
+// ----------------------------------------------------------
+
+public interface Client {
+    void processMessage(String msg);
+}
+
+// ----------------------------------------------------------
+
+public class Application implements Client {
+    MessageService service;
+
+    public Application(MessageService service) {
+        this.service = service;
+    }
+
+    @Override
+    public void processMessage(String msg) {
+        this.service.sendMessage(msg);
+    }
+}
+
+// ----------------------------------------------------------
+
+public interface MessageServiceInjector {
+    public Client getClient();
+}
+
+// ----------------------------------------------------------
+
+public class SMSServiceInjector implements MessageServiceInjector {
+    @Override
+    public Client getClient() {
+        return new Application(new SMSService());
+    }
+}
+
+// ----------------------------------------------------------
+
+public class EmailServiceInjector implements MessageServiceInjector {
+    @Override
+    public Client getClient() {
+        return new Application(new EmailService());
+    }
+}
+
+// ----------------------------------------------------------
+
+public class Main {
+    public static void main(String[] args) {
+        String msg = "Hello";
+        MessageServiceInjector injector = null;
+        Client client = null;
+
+        //Send Email
+        injector = new EmailServiceInjector();
+        client = injector.getClient();
+        client.processMessage(msg);
+
+        //Send SMS
+        injector = new SMSServiceInjector();
+        client = injector.getClient();
+        client.processMessage(msg);
+    }
+}
+
+// ----------------------------------------------------------
+
+Output:
+Email: Hello
+SMS: Hello
+
+\end{minted}
+\appendix
