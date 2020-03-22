@@ -21,7 +21,8 @@ public class UIHandler implements Mediator {
     private void reactOnButton(String event) {
         switch (event) {
             case "click":
-                textBox.setText("Hello " + nameTextInput.getText() + "!");
+                String name = nameTextInput.getText();
+                textBox.setText("Hello " + name + "!");
                 System.out.println(textBox.getText());
                 break;
             case "hover":
