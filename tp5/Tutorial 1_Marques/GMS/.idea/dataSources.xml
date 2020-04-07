@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="ormmapping:Mddp.cfg.xml/Hibernate" uuid="2be18e84-2e71-4d04-a3be-873644a05f88">
+      <driver-ref>mysql</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>Hibernate
+
+/Users/joaomarques/Universidade/MIEI/4º ano/2º semestre/Arquiteturas Aplicacionais/Guiões/Tutorial 1/GMS/src/ormmapping/Mddp.cfg.xml</remarks>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/data?serverTimezone=UTC</jdbc-url>
+    </data-source>
+  </component>
+</project>
