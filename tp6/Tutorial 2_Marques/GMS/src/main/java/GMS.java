@@ -4,12 +4,14 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import pt.uminho.di.aa.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class GMS {
     private StandardServiceRegistry sr;
     private Session s;
+    private Transaction t;
     private Collection<User> users;
 
     public GMS() {
@@ -28,73 +30,77 @@ public class GMS {
         return this.users;
     }
 
+    public Collection<Game> getAllGames() {
+        Query query = this.s.createQuery("from Game g");
+        List result = query.list();
+        if(result.size()==0) return new ArrayList<>();
+        return new ArrayList<>(result);
+    }
+
     public Collection<Game> getUserGames(String name) throws UserDontExistException {
-        Query query = s.createQuery("from User u where u.name = '" + name + "'");
-        List results = query.list();
-        if(results.size()==0) throw new UserDontExistException(name);
-        User user = (User) results.get(0);
+        User user = (User)this.s.get(User.class,name);
+        if(user==null) throw new UserDontExistException(name);
         return user.getGames();
     }
 
     public void registerUser(User user) throws UserAlreadyExistsException {
-        for(User u : users) {
-            if(u.getEmail().equals(user.getEmail()))
+        for(User u: this.users) {
+            if(u.getName().equals(user.getName()))
                 throw new UserAlreadyExistsException(user.getName());
         }
-        users.add(user);
-        s.save(user);
+        this.users.add(user);
+        this.s.save(user);
     }
 
     public void registerGame(Game game) throws GameAlreadyExistsException {
-        Query query = s.createQuery("from Game g where g.name = '" + game.getName() + "'");
-        List games = query.list();
-        if(games.size()!=0) throw new GameAlreadyExistsException(game.getName());
+        Game g = (Game)this.s.get(Game.class,game.getName());
+        if(g!=null) throw new GameAlreadyExistsException(game.getName());
         s.save(game);
     }
 
     public void registerPlatform(Platform platform) throws PlatformAlreadyExistsException {
-        Query query = s.createQuery("from Platform p where p.name = '" + platform.getName() +"'");
-        List platforms = query.list();
-        if(platforms.size()!=0) throw new PlatformAlreadyExistsException(platform.getName());
-        s.save(platform);
+        Platform p = (Platform)this.s.get(Platform.class,platform.getName());
+        if(p!=null) throw new PlatformAlreadyExistsException(platform.getName());
+        this.s.save(platform);
     }
 
     public void registerFormat(Format format)throws FormatAlreadyExistsException {
-        Query query = s.createQuery("from Format f where f.kind = " + format.getKind());
-        List formats = query.list();
-        if(formats.size()!=0) throw new FormatAlreadyExistsException(Integer.toString(format.getKind()));
-        s.save(format);
+        Format f = (Format)this.s.get(Format.class,format.getKind());
+        if(f!=null) throw new FormatAlreadyExistsException(Integer.toString(format.getKind()));
+        this.s.save(format);
     }
 
     public void deleteGame(String name) throws GameDontExistsException {
-        Query query = s.createQuery("from Game g where g.name = '" + name + "'");
-        List games = query.list();
-        if(games.size()==0) throw new GameDontExistsException(name);
-        //s.createQuery("delete from User_Game ug where ug.games_id = "+ ((Game)games.get(0)).getId()).executeUpdate();
-        s.createQuery("delete from Game g where g.id = " + ((Game)games.get(0)).getId()).executeUpdate();
-    }
-
-    public void deleteGame(Game game) throws GameDontExistsException {
-        Query query = s.createQuery("from Game g where g.name = '" + game.getName() + "'");
-        List games = query.list();
-        if(games.size()==0) throw new GameDontExistsException(game.getName());
-        s.createQuery("delete from user_game ug where ug.game_id = " + ((Game)games.get(0)).getId()).executeUpdate();
-        s.createQuery("delete from Game g where g.id = " + ((Game)games.get(0)).getId()).executeUpdate();
+        Game game = (Game)this.s.get(Game.class,name);
+        if(game==null) throw new GameDontExistsException(name);
+        for(User user: this.users) {
+            user.getGames().remove(game);
+            this.s.update(user);
+        }
+        game.setPlatform(null);
+        this.s.delete(game);
     }
 
     public Game searchGame(String name) throws GameDontExistsException {
-        Query query = s.createQuery("from Game g where g.name = '" + name + "'");
-        List games = query.list();
-        if(games.size()==0) throw new GameDontExistsException(name);
-        return (Game) games.get(0);
+        Game game = (Game)this.s.get(Game.class,name);
+        if (game==null) throw new GameDontExistsException(name);
+        return game;
     }
 
     public void close() {
-        s.close();
-        StandardServiceRegistryBuilder.destroy(sr);
+        this.s.close();
+        StandardServiceRegistryBuilder.destroy(this.sr);
     }
 
-    public Transaction beginTransaction() {
-        return s.beginTransaction();
+    public void beginTransaction() {
+        this.t = this.s.beginTransaction();
+    }
+
+    public void commit() {
+        this.t.commit();
+    }
+
+    public void rollback() {
+        this.t.rollback();
     }
 }

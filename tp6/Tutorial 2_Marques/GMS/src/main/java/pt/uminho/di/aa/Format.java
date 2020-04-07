@@ -7,20 +7,10 @@ import java.util.List;
 @Entity
 public class Format implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-    private String description;
     private int kind;
+    private String description;
 
     public Format() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getDescription() {
@@ -42,7 +32,6 @@ public class Format implements Serializable {
     @Override
     public String toString() {
         return "Format{" +
-                "id=" + id +
                 ", description='" + description + '\'' +
                 ", kind=" + kind +
                 '}';

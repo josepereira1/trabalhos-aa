@@ -3,14 +3,11 @@ package pt.uminho.di.aa;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.List;
 
 @Entity
 public class Platform implements Serializable {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private int id;
     private String name;
     private int year;
     private String description;
@@ -19,14 +16,6 @@ public class Platform implements Serializable {
     private Collection<Format> formats;
 
     public Platform() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -72,7 +61,6 @@ public class Platform implements Serializable {
     @Override
     public String toString() {
         return "Platform{" +
-                "id=" + id +
                 ", name='" + name + '\'' +
                 ", year=" + year +
                 ", description='" + description + '\'' +

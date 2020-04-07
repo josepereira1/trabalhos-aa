@@ -6,8 +6,6 @@ import java.io.Serializable;
 @Entity
 public class Game implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
     private String name;
     private int year;
     private double price;
@@ -16,14 +14,6 @@ public class Game implements Serializable {
     private Platform platform;
 
     public Game() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -69,7 +59,6 @@ public class Game implements Serializable {
     @Override
     public String toString() {
         return "Game{" +
-                "id=" + id +
                 ", name='" + name + '\'' +
                 ", year=" + year +
                 ", price=" + price +

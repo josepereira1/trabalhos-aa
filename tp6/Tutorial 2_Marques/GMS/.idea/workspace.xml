@@ -12,6 +12,30 @@
       <executable />
     </execution>
   </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="MySQL - data@localhost" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="MySQL - data@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="FavoritesManager">
     <favorites_list name="GMS" />
   </component>
@@ -37,6 +61,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
     <property name="Downloaded.Files.Path.Enabled" value="false" />
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
@@ -73,6 +98,28 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="hibernate.cfg.xml/Hibernate: root" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="hibernate.cfg.xml/Hibernate: root" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="com.intellij.database.console.session.MessageBusSession@505972cc" type="9fbbdea:ServiceModel$ServiceNode" />
+              </path>
+            </expand>
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -86,7 +133,10 @@
       <workItem from="1585672806087" duration="10431000" />
       <workItem from="1585691257208" duration="3593000" />
       <workItem from="1586173899611" duration="2500000" />
-      <workItem from="1586259319012" duration="1152000" />
+      <workItem from="1586259319012" duration="4044000" />
+      <workItem from="1586272003679" duration="2026000" />
+      <workItem from="1586285425988" duration="1368000" />
+      <workItem from="1586287182277" duration="782000" />
     </task>
     <servers />
   </component>
@@ -102,42 +152,54 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="320" y="115" key="#Auto_Import/0.0.1440.900@0.0.1440.900" timestamp="1585689132762" />
-    <state x="184" y="112" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585680470269">
+    <state x="184" y="112" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586272106729">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="184" y="112" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900@0.0.1440.900" timestamp="1585680470269" />
+    <state x="184" y="112" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900@0.0.1440.900" timestamp="1586272106729" />
     <state x="533" y="173" key="#com.intellij.ide.util.MemberChooser" timestamp="1585687984085">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="533" y="173" key="#com.intellij.ide.util.MemberChooser/0.0.1440.900@0.0.1440.900" timestamp="1585687984085" />
-    <state width="1398" height="496" key="GridCell.Tab.0.bottom" timestamp="1586261050188">
+    <state x="408" y="185" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1586271975288">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="496" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1586261050188" />
+    <state x="408" y="185" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1440.900@0.0.1440.900" timestamp="1586271975288" />
+    <state width="1398" height="345" key="GridCell.Tab.0.bottom" timestamp="1586288068731">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="345" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1586288068731" />
     <state width="1398" height="245" key="GridCell.Tab.0.bottom/0.23.1440.833@0.23.1440.833" timestamp="1586178552072" />
-    <state width="1398" height="496" key="GridCell.Tab.0.center" timestamp="1586261050185">
+    <state width="1398" height="345" key="GridCell.Tab.0.center" timestamp="1586288068729">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="496" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1586261050185" />
+    <state width="1398" height="345" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1586288068729" />
     <state width="1398" height="245" key="GridCell.Tab.0.center/0.23.1440.833@0.23.1440.833" timestamp="1586178552071" />
-    <state width="1398" height="496" key="GridCell.Tab.0.left" timestamp="1586261050184">
+    <state width="1398" height="345" key="GridCell.Tab.0.left" timestamp="1586288068728">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="496" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1586261050184" />
+    <state width="1398" height="345" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1586288068728" />
     <state width="1398" height="245" key="GridCell.Tab.0.left/0.23.1440.833@0.23.1440.833" timestamp="1586178552070" />
-    <state width="1398" height="496" key="GridCell.Tab.0.right" timestamp="1586261050187">
+    <state width="1398" height="345" key="GridCell.Tab.0.right" timestamp="1586288068730">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="496" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1586261050187" />
+    <state width="1398" height="345" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1586288068730" />
     <state width="1398" height="245" key="GridCell.Tab.0.right/0.23.1440.833@0.23.1440.833" timestamp="1586178552072" />
-    <state x="208" y="23" width="1024" height="833" key="SettingsEditor" timestamp="1585681079674">
+    <state x="208" y="23" width="1024" height="833" key="SettingsEditor" timestamp="1586268293504">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="208" y="23" width="1024" height="833" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1585681079674" />
+    <state x="208" y="23" width="1024" height="833" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1586268293504" />
+    <state x="626" y="352" width="350" height="220" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1" timestamp="1586285783910">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="626" y="352" width="350" height="220" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1/0.0.1440.900@0.0.1440.900" timestamp="1586285783910" />
     <state x="424" y="340" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1585673168154">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="424" y="340" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1440.900@0.0.1440.900" timestamp="1585673168154" />
+    <state x="97" y="147" key="new project wizard" timestamp="1586268576112">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="97" y="147" key="new project wizard/0.0.1440.900@0.0.1440.900" timestamp="1586268576112" />
     <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1586175001674">
       <screen x="0" y="0" width="1440" height="900" />
     </state>

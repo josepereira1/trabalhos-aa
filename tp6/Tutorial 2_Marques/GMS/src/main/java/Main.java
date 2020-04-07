@@ -3,14 +3,13 @@ import pt.uminho.di.aa.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         try {
             GMS facade = new GMS();
             //4 - start the transaction
-            Transaction t = facade.beginTransaction();
+            facade.beginTransaction();
 
             Collection<Format> formats = new ArrayList<>();
             Collection<Game> games = new ArrayList<>();
@@ -77,14 +76,15 @@ public class Main {
 
             try {
                 //6 - commit the transaction
-                t.commit();
+                facade.commit();
             } catch (Exception e) {
                 //6 - rollback in case of exception
-                t.rollback();
+                facade.rollback();
                 e.printStackTrace();
                 System.out.println("Unable to commit changes");
             }
 
+            System.out.println("Todos os Users");
             //Get allUsers
             Collection<User> users = facade.getAllUsers();
             for(User user : users) {
@@ -93,6 +93,16 @@ public class Main {
 
             System.out.println("##############################################################");
 
+            System.out.println("Todos os Games");
+            //Get allGames
+            Collection<Game> gamess = facade.getAllGames();
+            for(Game game: gamess) {
+                System.out.println("Game: " + game.toString());
+            }
+
+            System.out.println("##############################################################");
+
+            System.out.println("Todos os Games do User: " + u.getGames());
             //Get User games
             try {
                 Collection<Game> user_games = facade.getUserGames(u.getName());
@@ -105,6 +115,7 @@ public class Main {
 
             System.out.println("##############################################################");
 
+            System.out.println("Jogo: " + g1.getName());
             //Get Game
             try {
                 Game get = facade.searchGame("GTA V");
@@ -115,10 +126,10 @@ public class Main {
 
             System.out.println("##############################################################");
 
-            t = facade.beginTransaction();
+            facade.beginTransaction();
             //Delete Game
             try {
-                facade.deleteGame(g2);
+                facade.deleteGame(g2.getName());
                 //facade.deleteGame("Call of Duty");
                 //Print user to show that game is remove
                 System.out.println("User games after remove: " + facade.getUserGames(u.getName()).toString());
@@ -128,10 +139,10 @@ public class Main {
 
             try {
                 //6 - commit the transaction
-                t.commit();
+                facade.commit();
             } catch (Exception e) {
                 //6 - rollback in case of exception
-                t.rollback();
+                facade.rollback();
                 e.printStackTrace();
                 System.out.println("Unable to commit changes");
             }
