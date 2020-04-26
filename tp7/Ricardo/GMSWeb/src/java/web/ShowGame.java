@@ -109,7 +109,7 @@ public class ShowGame extends HttpServlet {
     private void displayGame(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {     
         
         // obtém o nome do jogo introduzido pelo cliente no form
-        String gameName = request.getParameter("gameName");
+        String gameName = request.getParameter("gamename");
         
         int warningType = -1; // para saber que aviso informo ao cliente
         // 0 - não introduziu todos os campos

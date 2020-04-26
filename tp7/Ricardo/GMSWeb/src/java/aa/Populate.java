@@ -14,7 +14,7 @@ public class Populate {
 
         IGMS gms = GMS.getGMS();
         
-        //DropGMSDatabaseSchema.main(null);
+        DropGMSDatabaseSchema.main(null);
         CreateGMSDatabaseSchema.main(null);
 
         Platform megadrive = new Platform();

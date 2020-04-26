@@ -46,7 +46,7 @@ public class AddGame extends HttpServlet {
         String action = request.getParameter("addGameAction");   
         
         // method = GET, simplesmente apresenta a página "Add Game"
-        if (action == null) refreshPage(request, response, null);
+        if (action == null) request.getRequestDispatcher("/WEB-INF/addGame.jsp").forward(request, response);
         
         // para não haver problemas caso tenha introduzido a "action" com maiúsculas sem querer
         action = action.toLowerCase();
@@ -110,69 +110,30 @@ public class AddGame extends HttpServlet {
         
         int warningType = -1; // para saber que aviso informo ao cliente
         // 0 - não introduziu todos os campos
-        // 1 - year não tem formato de um integer
-        // 2 - price não tem formato de um double
-        // 3 - jogo introduzido já existe
+        // 1 - jogo introduzido não existe
         
-        String name = request.getParameter("name");
-        String yearStr = request.getParameter("year");
-        String priceStr = request.getParameter("price");
-        String description = request.getParameter("description");
-        String platformname = request.getParameter("platformname");
-        
-        if (name != null && name.isEmpty() == false && description != null && description.isEmpty() == false) {
-            
-            int year = -1;
-            try {
-                year = Integer.parseInt(request.getParameter("year"));
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-                warningType = 1;
-                refreshPage(request, response, warningType);
-            }
-            
-            double price = -1d;
-            try {
-                price = Double.parseDouble(request.getParameter("price"));
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-                warningType = 2;
-                refreshPage(request, response, warningType);
-            }
-            
-            Game game = new Game();
-            game.setName(name);
-            game.setPrice(price);
-            game.setYear(year);
-            game.setDescription(name);
+        String gameNname = request.getParameter("gamename");
+  
+        if (gameNname != null && gameNname.isEmpty() == false) {
             
             IGMS gms = GMS.getGMS();
             try {
-                // adicona a plataforma ao jogo
-                Platform platform = gms.getPlatform(platformname, Login.getPersistentSession(request));
-                game.platforms.add(platform);
-                // adiciona o User ao jogo
+                Game game = gms.getGame(gameNname, Login.getPersistentSession(request));
                 String username = (String) request.getSession().getAttribute("username");
-                User user = gms.getUser(username, Login.getPersistentSession(request));
-                game.users.add(user);
-                // regista o jogo
-                gms.registerGame(game, Login.getPersistentSession(request));
-                request.setAttribute("gameName", game.getName());
+                // adicona o jogo ao user
+                gms.addGameToUser(username, game, Login.getPersistentSession(request));
                 // encaminha para o Controller My Games
                 request.getRequestDispatcher("/MyGames").forward(request, response);
             } catch (PersistentException e) {
                 e.printStackTrace();
                 request.getRequestDispatcher("/WEB-INF/internalError.jsp").forward(request, response);
-            } catch (GameAlreadyExistsException e) {
-                e.printStackTrace();
-                warningType = 3; // jogo introduzido já existe
-                refreshPage(request, response, warningType);
-            } catch (PlatformNotExistsException e) {
-                e.printStackTrace();
-                request.getRequestDispatcher("/WEB-INF/internalError.jsp").forward(request, response);
             } catch (UserNotExistsException e) {
                 e.printStackTrace();
                 request.getRequestDispatcher("/WEB-INF/internalError.jsp").forward(request, response);
+            } catch (GameNotExistsException e) {
+                e.printStackTrace();
+                warningType = 1; // jogo introduzido não existe
+                refreshPage(request, response, warningType);
             }
         } 
         

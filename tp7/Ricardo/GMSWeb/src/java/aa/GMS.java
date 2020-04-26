@@ -20,6 +20,12 @@ public class GMS implements IGMS {
         if (gms == null) gms = new GMS();
         return gms;
     }
+    
+    public void addGameToUser(String username, Game game, PersistentSession persistentSession) throws PersistentException, UserNotExistsException {
+        User user = getUser(username, persistentSession);  
+        user.games.add(game);
+        UserDAO.save(user);
+    }
 
     @Override
     public void registerUser(User user, PersistentSession s) throws PersistentException, UserAlreadyExistsException {
@@ -55,7 +61,7 @@ public class GMS implements IGMS {
     }
     
     @Override
-    public User getUser(String name, PersistentSession s)  throws PersistentException, UserNotExistsException {
+    public User getUser(String name, PersistentSession s) throws PersistentException, UserNotExistsException {
         User user = null;
         if (s == null) user = UserDAO.getUserByORMID(name);
         else user = UserDAO.getUserByORMID(s, name);

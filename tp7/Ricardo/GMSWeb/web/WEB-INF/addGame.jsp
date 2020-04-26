@@ -39,48 +39,16 @@
                 }
                 else if (warningType == 1) {
                    %> 
-                   <span style="color: red">year does not have a valid (integer) format! ex: 2020</span>
-                   <p>
-                   <%
-                }
-                else if (warningType == 2) {
-                   %> 
-                   <span style="color: red">price does not have a valid (double) format! ex: 15.99</span>
-                   <p>
-                   <%
-                }
-                else if (warningType == 3) {
-                   %> 
-                   <span style="color: red">game already exists!</span>
+                   <span style="color: red">game does not exist!</span>
                    <p>
                    <%
                 }
             }   
         %>
             
-        <form action="${pageContext.request.contextPath}/AddGame" method="POST">
-            
-            <label>name:</label>
-            <input required="required" type="text" name="name"/>
-            <p>
-            <label>year:</label>
-            <!-- o valor máximo é o ano atual -->
-            <input required="required" type="number" min="0" max=" <% int year = Calendar.getInstance().get(Calendar.YEAR); out.println(year); %> " name="year"/>
-            <p>
-            <label>price:</label>
-            <!-- 2 casas decimais e valor mínimo = 0 -->
-            <input required="required" type="number" step="0.01" min="0" name="price"/>
-            <p>
-            <label>description:</label>
-            <input required="required" type="text" name="description"/>
-            <p>
-            <label>Platform</label>
-            <% Collection<Platform> platforms = (Collection<Platform>) request.getAttribute("platforms"); %>
-            <select required="required" name="platformname">
-                <% for(Platform p : platforms) { %>
-                    <option> <%= p.getName() %> </option>
-                <% } %>
-            </select>
+        <form action="${pageContext.request.contextPath}/AddGame" method="POST">            
+            <label>game's name:</label>
+            <input required="required" type="text" name="gamename"/>
             <p>
             <button type="submit" name="addGameAction" value="addGame">Add Game</button>
         </form> 

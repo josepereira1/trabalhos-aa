@@ -65,7 +65,7 @@
         <form action="${pageContext.request.contextPath}/ShowGame" method="POST">
             <P>
             <label>game's name:</label>
-            <input required="required" type="text" name="gameName"/>
+            <input required="required" type="text" name="gamename"/>
             <p>
             <button type="submit" name="showGameAction" value="search">Search Game</button>
         </form> 
