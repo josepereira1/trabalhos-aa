@@ -45,22 +45,25 @@ public class ShowGame extends HttpServlet {
         
         String action = request.getParameter("showGameAction");   
         
-        // method = GET
-        if (action == null) displayGame(request, response);
+        // method = GET, simplesmente apresenta a página sem jogo
+        if (action == null) request.getRequestDispatcher("/WEB-INF/showGame.jsp").forward(request, response);
         
         // para não haver problemas caso tenha introduzido a "action" com maiúsculas sem querer
         action = action.toLowerCase();
         
-        // clicou no botão "Add Game"
+        // clicou no botão "Search" por isso apresenta a página com a informação do jogo
+        if (action.equals("search")) displayGame(request, response);
+        
+        // clicou no botão "Add Game" por isso encaminha para o Controller responsável
         if (action.equals("addgame"))  request.getRequestDispatcher("/AddGame").forward(request, response);
         
-        // clicou no botão "My Game"
-        else if (action.equals("usergames")) request.getRequestDispatcher("/UserGames").forward(request, response);
+        // clicou no botão "My Game" por isso encaminha para o Controller responsável
+        else if (action.equals("usergames")) request.getRequestDispatcher("/MyGames").forward(request, response);
         
-        // clicou no botão "All Game"
+        // clicou no botão "All Game" por isso encaminha para o Controller responsável
         else if (action.equals("allgames")) request.getRequestDispatcher("/AllGames").forward(request, response);
         
-        // internal error
+        // internal error (não é suposto entrar aqui)
         else request.getRequestDispatcher("/WEB-INF/internalError.jsp").forward(request, response);
     }
 
@@ -103,20 +106,34 @@ public class ShowGame extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void displayGame(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String gameName = (String) request.getAttribute("gameName");
-        IGMS gms = GMS.getGMS();
-        try {
-            Game game = gms.getGame(gameName, Login.getPersistentSession(request));
-            request.setAttribute("game", game);
-            request.getRequestDispatcher("/WEB-INF/showGame.jsp").forward(request, response);
-        } catch (PersistentException e) {
-            e.printStackTrace();
-            request.getRequestDispatcher("/WEB-INF/internalError.jsp").forward(request, response);
-        } catch (GameNotExistsException e) {
-            e.printStackTrace();
-            request.getRequestDispatcher("/WEB-INF/internalError.jsp").forward(request, response);
-        }
-    }
+    private void displayGame(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {     
+        
+        // obtém o nome do jogo introduzido pelo cliente no form
+        String gameName = request.getParameter("gameName");
+        
+        int warningType = -1; // para saber que aviso informo ao cliente
+        // 0 - não introduziu todos os campos
+        // 1 - jogo introduzido não existe
 
+        if (gameName != null && gameName.isEmpty() == false) {
+        
+            IGMS gms = GMS.getGMS();
+            try {
+                Game game = gms.getGame(gameName, Login.getPersistentSession(request));
+                request.setAttribute("game", game);
+                request.getRequestDispatcher("/WEB-INF/showGame.jsp").forward(request, response);
+            } catch (PersistentException e) {
+                e.printStackTrace();
+                request.getRequestDispatcher("/WEB-INF/internalError.jsp").forward(request, response);
+            } catch (GameNotExistsException e) {
+                e.printStackTrace();
+                warningType = 1;  // jogo introduzido não existe
+            }
+        } 
+        
+        else warningType = 0; // não introduziu todos os campos
+          
+        request.setAttribute("warningType", warningType);      
+        request.getRequestDispatcher("/WEB-INF/showGame.jsp").forward(request, response);
+    }
 }

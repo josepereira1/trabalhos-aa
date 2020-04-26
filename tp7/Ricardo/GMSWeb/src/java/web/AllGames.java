@@ -43,19 +43,22 @@ public class AllGames extends HttpServlet {
         
         String action = request.getParameter("allGamesAction");   
         
-        // method = GET
+        // method = GET, simplesmente apresenta a página "All Games"
         if (action == null) displayAllGames(request, response);
         
         // para não haver problemas caso tenha introduzido a "action" com maiúsculas sem querer
         action = action.toLowerCase();
         
-        // clicou no botão "My Games"
-        if (action.equals("usergames")) request.getRequestDispatcher("/UserGames").forward(request, response);
+        // clicou no botão "My Games" por isso encaminha para o Controller responsável
+        if (action.equals("usergames")) request.getRequestDispatcher("/MyGames").forward(request, response);
         
-        // clicou no botão "Add Game"
+        // clicou no botão "Add Game" por isso encaminha para o Controller responsável
         else if (action.equals("addgame")) request.getRequestDispatcher("/AddGame").forward(request, response);
         
-        // internal error
+        // clicou no botão "Show Game" por isso encaminha para o Controller responsável
+        else if (action.equals("showgame")) request.getRequestDispatcher("/ShowGame").forward(request, response);
+        
+        // internal error (não é suposto entrar aqui)
         else request.getRequestDispatcher("/WEB-INF/internalError.jsp").forward(request, response);
     }
     

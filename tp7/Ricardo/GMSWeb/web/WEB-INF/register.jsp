@@ -12,8 +12,9 @@
         <title>Register</title>
     </head>
     <body>
-        <%  // mostra a mensagem de credenciais inválidas a vermelho
-            Integer warningType = (Integer) request.getAttribute("warningType");           
+        <%  
+            Integer warningType = (Integer) request.getAttribute("warningType"); 
+            // é necessário testar o (warningType != null) pois quando é método = GET (ex: 1º acesso) não existe a variável warningType definida
             if (warningType != null) { // >= 2º acesso
                 if (warningType == 0) {
                    %> 
@@ -30,16 +31,15 @@
             }   
         %>
             
-        <form action="${pageContext.request.contextPath}/Register" method="POST">
-            
+        <form action="${pageContext.request.contextPath}/Register" method="POST">           
             <label>name:</label>
-            <input type="text" name="username"/>
+            <input required="required" type="text" name="username"/>
             <p>
             <label>email:</label>
-            <input type="text" name="email"/>
+            <input required="required" type="email" name="email"/>
             <p>
             <label>password:</label>
-            <input type="password" name="password"/>
+            <input required="required" type="password" name="password"/>
             <p>
             <button type="submit" name="registerAction" value="register">Register</button>
         </form> 

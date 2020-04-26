@@ -64,6 +64,15 @@ public class GMS implements IGMS {
     }
     
     @Override
+    public Platform getPlatform(String platformname, PersistentSession s) throws PersistentException, PlatformNotExistsException {
+        Platform platform = null;
+        if (s == null) platform = PlatformDAO.getPlatformByORMID(platformname);
+        else platform = PlatformDAO.getPlatformByORMID(s, platformname);
+        if (platform == null) throw new PlatformNotExistsException(platformname);
+        return platform;
+    }
+    
+    @Override
     public boolean autenticateUser(String name, String password, PersistentSession s) throws PersistentException, UserNotExistsException {
         User user = this.getUser(name, s);
         return user.getPassword().equals(password);
@@ -117,5 +126,13 @@ public class GMS implements IGMS {
         }
 
         GameDAO.delete(game);
+    }
+    
+    @Override
+    public Collection<Platform> getAllPlatforms(PersistentSession s) throws PersistentException {
+        Platform[] platforms = null;
+        if (s == null) platforms = PlatformDAO.listPlatformByCriteria(new PlatformCriteria());
+        else platforms = PlatformDAO.listPlatformByCriteria(new PlatformCriteria(s));
+        return Arrays.asList(platforms);
     }
 }

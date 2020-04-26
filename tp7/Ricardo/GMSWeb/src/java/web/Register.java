@@ -46,16 +46,16 @@ public class Register extends HttpServlet {
         
         String action = request.getParameter("registerAction");      
         
-        // method = GET
+        // method = GET, simplesmente apresenta a página de registo
         if (action == null) request.getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
         
         // para não haver problemas caso tenha introduzido a "action" com maiúsculas sem querer
         action = action.toLowerCase(); 
         
-        // clicou no botão Register
+        // clicou no botão "Register"
         if (action.equals("register")) register(request, response);
         
-        // internal error
+        // internal error (não é suposto entrar aqui)
         else request.getRequestDispatcher("/WEB-INF/internalError.jsp").forward(request, response);
     }
     
@@ -74,6 +74,7 @@ public class Register extends HttpServlet {
             User user = new User();
             user.setName(username);
             user.setEmail(email);
+            // obtém a password encriptada
             try {
                 String hashedPassword = Checksum.getFileChecksum(password.getBytes(), MessageDigest.getInstance("SHA-256"));
                 user.setPassword(hashedPassword);       
@@ -84,22 +85,29 @@ public class Register extends HttpServlet {
             IGMS gms = GMS.getGMS();
             try {
                 gms.registerUser(user, Login.getPersistentSession(request));
+                // se chegar a esta linha é porque teve sucesso (caso contrário entrava na exceção)
                 // guarda o estado de login e username na sessão do cliente   
                 request.getSession().setAttribute("loggedIn", true);  
                 request.getSession().setAttribute("username", username);
                 // redireciona para a página "My Games"
-                request.getRequestDispatcher("/UserGames").forward(request, response);
+                request.getRequestDispatcher("/MyGames").forward(request, response);
             } catch (PersistentException e) {
                 e.printStackTrace();
                 request.getRequestDispatcher("/WEB-INF/internalError.jsp").forward(request, response);
             } catch (UserAlreadyExistsException e) {
-                warningType = 1; // username já em uso
                 e.printStackTrace();
+                warningType = 1; // username já em uso
+                refreshPage(request, response, warningType);
             }
         }
         
-        else warningType = 0;
+        else warningType = 0; // não introduziu todos os campos
         
+        // se chegar a esta linha é porque NÃO teve sucesso (caso contrário tinha sido redirecionado antes para a página "My Games")
+        refreshPage(request, response, warningType);
+    }
+    
+    private void refreshPage(HttpServletRequest request, HttpServletResponse response, int warningType) throws ServletException, IOException {
         request.setAttribute("warningType", warningType);      
         request.getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
     }

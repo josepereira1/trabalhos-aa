@@ -42,19 +42,19 @@ public class Login extends HttpServlet {
         
         String action = request.getParameter("loginAction");      
         
-        // method = GET
+        // method = GET, simplesmente apresenta a página de login
         if (action == null) request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
         
         // para não haver problemas caso tenha introduzido a "action" com maiúsculas sem querer
         action = action.toLowerCase(); 
         
-        // clicou no botão Register
+        // clicou no botão "Register" por isso encaminha para o Controller responsável
         if (action.equals("register")) request.getRequestDispatcher("/Register").forward(request, response);        
         
-        // clicou no botão Login
+        // clicou no botão "Login"
         else if (action.equals("login")) login(request, response);
         
-        // internal error
+        // internal error (não é suposto entrar aqui)
         else request.getRequestDispatcher("/WEB-INF/internalError.jsp").forward(request, response);
     }
     
@@ -65,24 +65,33 @@ public class Login extends HttpServlet {
             
         boolean loggedIn = false;
         
-        // verifica se as credenciais foram introduzidas ( != null ) e se não são vaizas ( isEmpty() != false ) 
+        int warningType = -1; // para saber que aviso informo ao cliente
+        // 0 - não introduziu todos os campos
+        // 1 - credenciais inválidas (username introduzido não existe)
+        // 2 - credenciais inválidas (password errada)
+        
         if (username != null && username.isEmpty() == false && password != null && password.isEmpty() == false) {
             IGMS gms = GMS.getGMS();
-            try {                  
-                // verifica se as credenciais são válidas
+            try {
+                // obtém a password encriptada
                 String hashedPassword = Checksum.getFileChecksum(password.getBytes(), MessageDigest.getInstance("SHA-256"));
+                // verifica se as credenciais são válidas
                 loggedIn = gms.autenticateUser(username, hashedPassword, Login.getPersistentSession(request));
+                if (loggedIn == false) warningType = 2; // 2 - credenciais inválidas (password errada)
             } catch (PersistentException e) {
                 e.printStackTrace();
                 request.getRequestDispatcher("/WEB-INF/internalError.jsp").forward(request, response);
             } catch (UserNotExistsException e) {
-                // caso entre aqui não é necessário fazer nada pois a variável "loggedIn" continua a false
+                warningType = 1; // credenciais inválidas (username introduzido não existe)
+                loggedIn = false; 
                 e.printStackTrace();
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
                 request.getRequestDispatcher("/WEB-INF/internalError.jsp").forward(request, response);
             }
-        }
+        } 
+        
+        else warningType = 0; // não introduziu todos os campos
         
         // guarda o estado de login na sessão do cliente   
         request.getSession().setAttribute("loggedIn", loggedIn);    
@@ -91,10 +100,13 @@ public class Login extends HttpServlet {
         if (loggedIn) {
             // guarda o username na sessão do cliente   
             request.getSession().setAttribute("username", username);
-            request.getRequestDispatcher("/UserGames").forward(request, response);
+            request.getRequestDispatcher("/MyGames").forward(request, response);
+        }        
+        // caso as credenciais sejam inválidas redireciona para a mesma página informando o cliente de insucesso
+        else {
+            request.setAttribute("warningType", warningType);   
+            request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
         }
-        // caso as credenciais sejam inválidas redireciona para a mesma página informando de insucesso
-        else request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
     }
     
     public static PersistentSession getPersistentSession(HttpServletRequest request) throws PersistentException {

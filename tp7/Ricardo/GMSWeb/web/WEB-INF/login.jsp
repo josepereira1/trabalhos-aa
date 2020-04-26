@@ -13,28 +13,46 @@
     </head>
     <body>
         
-        <%  // mostra a mensagem de credenciais inválidas a vermelho
-            Boolean loggedIn = (Boolean) request.getSession().getAttribute("loggedIn");
-            if (loggedIn != null && loggedIn == false) {
-               %> 
-               <span style="color: red">invalid credentials!</span>
-               <p>
-               <%
+        <%  
+            Boolean loggedIn = (Boolean) request.getSession().getAttribute("loggedIn");         
+            // é necessário testar o (loggedIn != null) pois quando é método = GET (ex: 1º acesso) não existe a variável loggedIn definida
+            if (loggedIn != null && loggedIn == false) {              
+               Integer warningType = (Integer) request.getAttribute("warningType");         
+               // não é necessário testar se (warningType != null) pois quando loggedIn != null existe sempre warningType               
+               if (warningType == 0) {
+                   %> 
+                   <span style="color: red">please enter all fields!</span>
+                   <p>
+                   <%
+                }
+                else if (warningType == 1) {
+                   %> 
+                   <span style="color: red">username does not exist!</span>
+                   <p>
+                   <%
+                }
+                else if (warningType == 2) {
+                   %> 
+                   <span style="color: red">wrong password!</span>
+                   <p>
+                   <%
+                }
             }
         %>
             
-        <form action="${pageContext.request.contextPath}/Login" method="POST">
-            
+        <form action="${pageContext.request.contextPath}/Login" method="POST">         
             <label>username:</label>
-            <input type="text" name="username"/>
+            <input required="required" type="text" name="username"/>
             <p>
             <label>password:</label>
-            <input type="password" name="password"/>
+            <input required="required" type="password" name="password"/>
             <p>
-
-            <button type="submit" name="loginAction" value="login">Login</button>
-            <button type="submit" name="loginAction" value="register">Register</button>
-            
+            <button type="submit" name="loginAction" value="login">Login</button>           
         </form> 
+        
+        <form action="${pageContext.request.contextPath}/Login" method="POST">
+            <button type="submit" name="loginAction" value="register">Register</button>
+        </form>
+            
     </body>
 </html>

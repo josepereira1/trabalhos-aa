@@ -4,6 +4,8 @@
     Author     : Ricardo Petronilho
 --%>
 
+<%@page import="java.util.stream.Collectors"%>
+<%@page import="java.util.Arrays"%>
 <%@page import="java.util.Collection"%>
 <%@page import="aa.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -36,6 +38,7 @@
             <button disabled>All Games</button>
             <button type="submit" name="allGamesAction" value="userGames">My Games</button>  
             <button type="submit" name="allGamesAction" value="addGame">Add Game</button>
+            <button type="submit" name="allGamesAction" value="showGame">Show Game</button>
         </form> 
         
         <% 
@@ -53,6 +56,7 @@
                         <th>Year</th>
                         <th>Price</th>
                         <th>Description</th>
+                        <th>Platforms</th>
                     </tr>
                 <% 
                         for(Game g : games) { %>
@@ -61,6 +65,7 @@
                                 <td> <%= g.getYear() %> </td>
                                 <td> <%= g.getPrice() %> </td>
                                 <td> <%= g.getDescription() %> </td>
+                                <td> <%= Arrays.toString(Arrays.stream(g.platforms.toArray()).map(Platform::getName).collect(Collectors.toList()).toArray()) %> </td>
                             </tr> 
                      <% } %>
                 </table> 
