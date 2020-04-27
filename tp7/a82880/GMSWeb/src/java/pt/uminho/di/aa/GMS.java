@@ -45,7 +45,6 @@ public class GMS {
     }
 
     public void addGameToPersonalLibrary(String username, String gameName, PersistentSession session) throws PersistentException, UserNotExistsException, InvalidParametersException, GameNotExistsException {
-        //  assumindo que no caso do meu programa ter uma relação de 1 user para N games, significa que os games tem de ser adicionados por cada utilizador
 
         if(username == null || username.equals("") || gameName == null || gameName.equals("")) throw new InvalidParametersException();
         if(!containsUser(username, session)) throw new UserNotExistsException(username);
