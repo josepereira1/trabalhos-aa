@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: joaomarques(Universidade do Minho)
+License Type: Academic
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="business.Game" table="Game" lazy="false">
+		<id name="name" column="Name" type="string">
+			<generator class="assigned">
+			</generator>
+		</id>
+		<many-to-one name="platform" column="PlatformName" class="business.Platform" cascade="save-update,lock" unique="true" not-null="false" lazy="proxy" access="field">
+		</many-to-one>
+		<property name="year" column="Year" type="integer" length="10" not-null="true" lazy="false"/>
+		<property name="price" column="Price" type="float" not-null="true" lazy="false"/>
+		<property name="description" column="Description" type="string" length="255" not-null="false" lazy="false"/>
+	</class>
+</hibernate-mapping>
