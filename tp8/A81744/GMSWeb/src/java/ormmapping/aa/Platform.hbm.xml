@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: Ricardo Petronilho(Universidade do Minho)
+License Type: Academic
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="aa.Platform" table="Platform" lazy="false">
+		<id name="name" column="Name" type="string">
+			<generator class="assigned">
+			</generator>
+		</id>
+		<property name="year" column="Year" type="integer" length="10" not-null="true" lazy="false"/>
+		<property name="description" column="Description" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="manufacturer" column="Manufacturer" type="string" length="255" not-null="false" lazy="false"/>
+		<set name="ORM_Games" table="Game_Platform" lazy="true" cascade="save-update,lock" inverse="true">
+			<key column="PlatformName" not-null="true"/>
+			<many-to-many column="GameName" class="aa.Game">
+			</many-to-many>
+		</set>
+	</class>
+</hibernate-mapping>
