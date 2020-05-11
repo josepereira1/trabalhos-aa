@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+        *** GENERATED FROM jax-ws.xml - DO NOT EDIT !                             ***
+        *** TO MODIFY wsimport options USE Web Service node -> Edit WS Attributes ***
+        *** TO CHANGE TARGETS GENERATED TO jaxws-build.xml COPY THOSE             ***
+        *** TARGETS TO ../build.xml AND MODIFY THAT FILE INSTEAD                  ***
+
+        --><project xmlns:xalan="http://xml.apache.org/xslt" xmlns:j2seproject3="http://www.netbeans.org/ns/j2se-project/3" xmlns:jaxws="http://www.netbeans.org/ns/jax-ws/1">
+    <!--
+                ===================
+                JAX-WS WSIMPORT SECTION
+                ===================
+            -->
+    <target name="wsimport-init" depends="init">
+        <mkdir dir="${build.generated.sources.dir}/jax-ws"/>
+        <taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport">
+            <classpath path="${libs.jaxws21.classpath}"/>
+        </taskdef>
+    </target>
+    <target name="wsimport-client-Games" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/Games"/>
+        <property name="wsdl-Games" location="xml-resources/web-service-references/Games/wsdl/localhost_8080/GMSWeb/Games.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/Games" destdir="${build.generated.dir}/jax-wsCache/Games" wsdl="${wsdl-Games}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/GMSWeb/Games?wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${wsdl-Games}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/Games"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/Games">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-Games" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/Games"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/webservices"/>
+    </target>
+    <target name="wsimport-client-Users" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/Users"/>
+        <property name="wsdl-Users" location="xml-resources/web-service-references/Users/wsdl/localhost_8080/GMSWeb/Users.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/Users" destdir="${build.generated.dir}/jax-wsCache/Users" wsdl="${wsdl-Users}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/GMSWeb/Users?wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${wsdl-Users}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/Users"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/Users">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-Users" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/Users"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/webservices"/>
+    </target>
+    <target name="wsimport-client-UsersWithTokens" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/UsersWithTokens"/>
+        <property name="wsdl-UsersWithTokens" location="xml-resources/web-service-references/UsersWithTokens/wsdl/localhost_8080/GMSWeb/UsersWithTokens.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/UsersWithTokens" destdir="${build.generated.dir}/jax-wsCache/UsersWithTokens" wsdl="${wsdl-UsersWithTokens}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/GMSWeb/UsersWithTokens?wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${wsdl-UsersWithTokens}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/UsersWithTokens"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/UsersWithTokens">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-UsersWithTokens" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/UsersWithTokens"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/webservices"/>
+    </target>
+    <target name="wsimport-client-generate" depends="wsimport-client-Games, wsimport-client-Users, wsimport-client-UsersWithTokens"/>
+</project>

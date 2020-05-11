@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://webservices/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="Games" targetNamespace="http://webservices/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://webservices/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://webservices/">
+  <xs:element name="hello" type="tns:hello"/>
+  <xs:element name="helloResponse" type="tns:helloResponse"/>
+  <xs:element name="listGames" type="tns:listGames"/>
+  <xs:element name="listGamesResponse" type="tns:listGamesResponse"/>
+  <xs:element name="searchGame" type="tns:searchGame"/>
+  <xs:element name="searchGameResponse" type="tns:searchGameResponse"/>
+  <xs:complexType name="listGames">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="listGamesResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:game"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="game">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="description" type="xs:string"/>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+      <xs:element minOccurs="0" name="platform" type="tns:platform"/>
+      <xs:element name="price" type="xs:float"/>
+      <xs:element name="year" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="platform">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="description" type="xs:string"/>
+      <xs:element minOccurs="0" name="manufacture" type="xs:string"/>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+      <xs:element name="year" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="hello">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="helloResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="searchGame">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="searchGameResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:game"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PersistentException" type="tns:PersistentException"/>
+  <xs:complexType name="PersistentException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GameNotExistsException" type="tns:GameNotExistsException"/>
+  <xs:complexType name="GameNotExistsException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="InvalidParametersException" type="tns:InvalidParametersException"/>
+  <xs:complexType name="InvalidParametersException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="listGames">
+    <wsdl:part element="tns:listGames" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="hello">
+    <wsdl:part element="tns:hello" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchGame">
+    <wsdl:part element="tns:searchGame" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidParametersException">
+    <wsdl:part element="tns:InvalidParametersException" name="InvalidParametersException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="listGamesResponse">
+    <wsdl:part element="tns:listGamesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GameNotExistsException">
+    <wsdl:part element="tns:GameNotExistsException" name="GameNotExistsException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="helloResponse">
+    <wsdl:part element="tns:helloResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PersistentException">
+    <wsdl:part element="tns:PersistentException" name="PersistentException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchGameResponse">
+    <wsdl:part element="tns:searchGameResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Games">
+    <wsdl:operation name="listGames">
+      <wsdl:input message="tns:listGames" name="listGames">
+    </wsdl:input>
+      <wsdl:output message="tns:listGamesResponse" name="listGamesResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:PersistentException" name="PersistentException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="hello">
+      <wsdl:input message="tns:hello" name="hello">
+    </wsdl:input>
+      <wsdl:output message="tns:helloResponse" name="helloResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="searchGame">
+      <wsdl:input message="tns:searchGame" name="searchGame">
+    </wsdl:input>
+      <wsdl:output message="tns:searchGameResponse" name="searchGameResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:PersistentException" name="PersistentException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:GameNotExistsException" name="GameNotExistsException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:InvalidParametersException" name="InvalidParametersException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="GamesSoapBinding" type="tns:Games">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="listGames">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="listGames">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="listGamesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="PersistentException">
+        <soap:fault name="PersistentException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="hello">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="hello">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="helloResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="searchGame">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchGame">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchGameResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="PersistentException">
+        <soap:fault name="PersistentException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="GameNotExistsException">
+        <soap:fault name="GameNotExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="InvalidParametersException">
+        <soap:fault name="InvalidParametersException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Games">
+    <wsdl:port binding="tns:GamesSoapBinding" name="GamesPort">
+      <soap:address location="http://localhost:8080/GMSWeb/Games"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

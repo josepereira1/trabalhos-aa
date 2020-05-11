@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://localhost:8080/GMSWeb/UsersWithToken?wsdl" uri="xml-resources/web-service-references/UsersWithToken/wsdl/localhost_8080/GMSWeb/UsersWithToken.wsdl"/>
+    <system systemId="http://localhost:8080/GMSWeb/Games?wsdl" uri="xml-resources/web-service-references/Games/wsdl/localhost_8080/GMSWeb/Games.wsdl"/>
+    <system systemId="http://localhost:8080/GMSWeb/Users?wsdl" uri="xml-resources/web-service-references/Users/wsdl/localhost_8080/GMSWeb/Users.wsdl"/>
+    <system systemId="http://localhost:8080/GMSWeb/UsersWithTokens?wsdl" uri="xml-resources/web-service-references/UsersWithTokens/wsdl/localhost_8080/GMSWeb/UsersWithTokens.wsdl"/>
+</catalog>

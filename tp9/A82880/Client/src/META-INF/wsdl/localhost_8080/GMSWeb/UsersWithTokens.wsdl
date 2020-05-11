@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://webservices/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="UsersWithTokens" targetNamespace="http://webservices/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://webservices/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://webservices/">
+  <xs:element name="hello" type="tns:hello"/>
+  <xs:element name="helloResponse" type="tns:helloResponse"/>
+  <xs:element name="login" type="tns:login"/>
+  <xs:element name="loginResponse" type="tns:loginResponse"/>
+  <xs:element name="userDetails" type="tns:userDetails"/>
+  <xs:element name="userDetailsResponse" type="tns:userDetailsResponse"/>
+  <xs:complexType name="userDetails">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="token" type="xs:string"/>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="userDetailsResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:user"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="user">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="games" type="tns:gameSetCollection"/>
+      <xs:element minOccurs="0" name="email" type="xs:string"/>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+      <xs:element minOccurs="0" name="password" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="gameSetCollection">
+    <xs:complexContent>
+      <xs:extension base="tns:ormSet">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType abstract="true" name="ormSet">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="login">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+      <xs:element minOccurs="0" name="password" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="loginResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="hello">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="helloResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UserNotExistsException" type="tns:UserNotExistsException"/>
+  <xs:complexType name="UserNotExistsException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PersistentException" type="tns:PersistentException"/>
+  <xs:complexType name="PersistentException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="NoSuchAlgorithmException" type="tns:NoSuchAlgorithmException"/>
+  <xs:complexType name="NoSuchAlgorithmException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="userDetails">
+    <wsdl:part element="tns:userDetails" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="login">
+    <wsdl:part element="tns:login" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="NoSuchAlgorithmException">
+    <wsdl:part element="tns:NoSuchAlgorithmException" name="NoSuchAlgorithmException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="hello">
+    <wsdl:part element="tns:hello" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="userDetailsResponse">
+    <wsdl:part element="tns:userDetailsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="helloResponse">
+    <wsdl:part element="tns:helloResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UserNotExistsException">
+    <wsdl:part element="tns:UserNotExistsException" name="UserNotExistsException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PersistentException">
+    <wsdl:part element="tns:PersistentException" name="PersistentException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="loginResponse">
+    <wsdl:part element="tns:loginResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="UsersWithTokens">
+    <wsdl:operation name="userDetails">
+      <wsdl:input message="tns:userDetails" name="userDetails">
+    </wsdl:input>
+      <wsdl:output message="tns:userDetailsResponse" name="userDetailsResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:PersistentException" name="PersistentException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:UserNotExistsException" name="UserNotExistsException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="login">
+      <wsdl:input message="tns:login" name="login">
+    </wsdl:input>
+      <wsdl:output message="tns:loginResponse" name="loginResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:PersistentException" name="PersistentException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:NoSuchAlgorithmException" name="NoSuchAlgorithmException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="hello">
+      <wsdl:input message="tns:hello" name="hello">
+    </wsdl:input>
+      <wsdl:output message="tns:helloResponse" name="helloResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="UsersWithTokensSoapBinding" type="tns:UsersWithTokens">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="userDetails">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="userDetails">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="userDetailsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="PersistentException">
+        <soap:fault name="PersistentException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UserNotExistsException">
+        <soap:fault name="UserNotExistsException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="login">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="login">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="loginResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="PersistentException">
+        <soap:fault name="PersistentException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="NoSuchAlgorithmException">
+        <soap:fault name="NoSuchAlgorithmException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="hello">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="hello">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="helloResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="UsersWithTokens">
+    <wsdl:port binding="tns:UsersWithTokensSoapBinding" name="UsersWithTokensPort">
+      <soap:address location="http://localhost:8080/GMSWeb/UsersWithTokens"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
